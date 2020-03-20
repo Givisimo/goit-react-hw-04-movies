@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,25 +14,21 @@ import routes from './routes';
 import MoviesPage from '../pages/MoviesPage/MoviesPage';
 import MovieDetails from '../pages/MovieDetails/MovieDetails';
 
-class App extends Component {
-  state = {};
+const App = () => {
+  return (
+    <div className={styles.App}>
+      <Router>
+        <Navigation />
 
-  render() {
-    return (
-      <div className={styles.App}>
-        <Router>
-          <Navigation />
-
-          <Switch>
-            <Route exact path={routes.HOME} component={Home} />
-            <Route path={routes.MOVIE_DETAILS} component={MovieDetails} />
-            <Route path={routes.MOVIES} component={MoviesPage} />
-            <Redirect to="/" />
-          </Switch>
-        </Router>
-      </div>
-    );
-  }
-}
+        <Switch>
+          <Route exact path={routes.HOME} component={Home} />
+          <Route path={routes.MOVIE_DETAILS} component={MovieDetails} />
+          <Route path={routes.MOVIES} component={MoviesPage} />
+          <Redirect to="/" />
+        </Switch>
+      </Router>
+    </div>
+  );
+};
 
 export default App;
