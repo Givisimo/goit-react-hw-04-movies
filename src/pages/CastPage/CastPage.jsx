@@ -9,7 +9,7 @@ const CastPage = ({ match }) => {
     movieApi.fetchCastDetails(match.params.id).then(({ cast }) => {
       handleCast(cast.slice(0, 4));
     });
-  });
+  }, [match.params.id]);
   return (
     <ul>
       {cast &&

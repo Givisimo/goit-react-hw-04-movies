@@ -1,42 +1,32 @@
-import React, { Component } from 'react';
-import T from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { useRouteMatch } from 'react-router-dom';
 import movieApi from '../../services/movieApi';
 
-class ReviewPage extends Component {
-  static propTypes = {
-    match: T.instanceOf(Object).isRequired,
-  };
+const ReviewPage = () => {
+  const message = 'No reviews yet.';
+  const [reviews, handleReviews] = useState([]);
+  const match = useRouteMatch();
 
-  state = {
-    reviews: [],
-  };
-
-  componentDidMount() {
-    const { match } = this.props;
+  useEffect(() => {
     movieApi.fetchReviews(match.params.id).then(data => {
-      this.setState({ reviews: data.results });
+      handleReviews(data.results);
     });
-  }
-
-  render() {
-    const { reviews } = this.state;
-    const message = 'No reviews yet.';
-    return (
-      <ul>
-        {reviews.length === 0 ? (
-          <p>{message}</p>
-        ) : (
-          reviews &&
-          reviews.map(review => (
-            <li key={review.id}>
-              <h3>{review.author}</h3>
-              <p>{review.content}</p>
-            </li>
-          ))
-        )}
-      </ul>
-    );
-  }
-}
+  }, []);
+  return (
+    <ul>
+      {reviews.length === 0 ? (
+        <p>{message}</p>
+      ) : (
+        reviews &&
+        reviews.map(review => (
+          <li key={review.id}>
+            <h3>{review.author}</h3>
+            <p>{review.content}</p>
+          </li>
+        ))
+      )}
+    </ul>
+  );
+};
 
 export default ReviewPage;
